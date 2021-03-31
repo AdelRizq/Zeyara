@@ -3,6 +3,7 @@
    <application
         android:label="great_places"
         android:icon="@mipmap/ic_launcher">
+        <!-- android:requestLegacyExternalStorage="true" -->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

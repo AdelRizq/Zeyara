@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import '../widgets/image_input.dart';
 
 class AddPlaceScreen extends StatefulWidget {
   static String routeName = "/add-place-screen";
@@ -9,6 +13,11 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   TextEditingController _titleController;
+  File _pickedImage;
+
+  _selectImage(File pickedImage) {
+    _pickedImage = pickedImage;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +43,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(),
-                    TextButton(
-                      onPressed: () {},
-                      child: Icon(Icons.camera),
-                    ),
+                    ImageInput(_selectImage),
                   ],
                 ),
               ),
