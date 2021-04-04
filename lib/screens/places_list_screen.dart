@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './add_place_screen.dart';
+import '../providers/places.dart';
 
 class PlacesListScreen extends StatelessWidget {
   @override
@@ -17,8 +19,32 @@ class PlacesListScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: CircularProgressIndicator(),
+      body: FutureBuilder(
+        future: Provider.of<Places>(context, listen: false).fetchAndSetPlaces(),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.waiting
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Consumer<Places>(
+                    child: Center(
+                        child: const Text("No places yet, please add some :)")),
+                    builder: (ctx, places, ch) => places.places.isEmpty
+                        ? ch
+                        : ListView.builder(
+                            itemCount: places.places.length,
+                            itemBuilder: (ctx, idx) => ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    FileImage(places.places[idx].image),
+                              ),
+                              title: Text(places.places[idx].title),
+                              onTap: () {
+                                // go to details page
+                              },
+                            ),
+                          ),
+                  ),
       ),
     );
   }
