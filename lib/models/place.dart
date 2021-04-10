@@ -2,22 +2,25 @@ import "dart:io";
 
 import 'package:flutter/foundation.dart';
 
-class PlaceLocation {
-  final double latitude;
-  final double longitude;
-  final String address;
+import 'package:latlong/latlong.dart';
 
-  PlaceLocation({
-    @required this.latitude,
-    @required this.longitude,
-    this.address,
-  });
-}
+// class PlaceLocation {
+//   final double latitude;
+//   final double longitude;
+//   final String address;
+
+//   PlaceLocation({
+//     @required this.latitude,
+//     @required this.longitude,
+//     this.address,
+//   });
+// }
 
 class Place {
   final String id;
   final String title;
-  final PlaceLocation location;
+  final LatLng location;
+  final String address;
   final File image;
 
   Place({
@@ -25,5 +28,6 @@ class Place {
     @required this.title,
     @required this.location,
     @required this.image,
+    this.address,
   });
 }

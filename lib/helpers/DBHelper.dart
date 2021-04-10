@@ -8,7 +8,7 @@ class DBHelper {
       path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT)');
+            'CREATE TABLE user_places(id TEXT PRIMARY KEY, title TEXT, image TEXT, loc_lat REAL, loc_lng REAL, address Text)');
       },
       version: 1,
     );
@@ -16,7 +16,7 @@ class DBHelper {
 
   static Future<void> insert(String table, Map<String, Object> data) async {
     final sqlDb = await DBHelper.database();
-    
+
     sqlDb.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 

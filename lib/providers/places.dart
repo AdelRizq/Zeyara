@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:latlong/latlong.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/place.dart';
 
-import '../helpers/DBHelper.dart';
+import '../helpers/dbhelper.dart';
+import '../helpers/location_helper.dart';
 
 class Places with ChangeNotifier {
   List<Place> _places = [];
@@ -13,15 +15,15 @@ class Places with ChangeNotifier {
     return [..._places];
   }
 
-  addPlace(
-    String title,
-    File pickedImage,
-  ) {
+  Future<void> addPlace(String title, File pickedImage, LatLng location) async {
+    String address = await LocationHelper.getPlaceAddress(location);
+
     final newPlace = Place(
       id: DateTime.now().toString(),
       image: pickedImage,
       title: title,
-      location: null,
+      location: location,
+      address: address,
     );
 
     _places.add(newPlace);
@@ -33,6 +35,9 @@ class Places with ChangeNotifier {
         "id": newPlace.id,
         "title": newPlace.title,
         "image": newPlace.image.path,
+        "loc_lat": newPlace.location.latitude,
+        "loc_lng": newPlace.location.longitude,
+        "address": newPlace.address,
       },
     );
   }
@@ -42,12 +47,15 @@ class Places with ChangeNotifier {
     _places = placesData
         .map(
           (place) => Place(
-              id: place['id'],
-              title: place['title'],
-              image: File(place['image']),
-              location: null),
+            id: place['id'],
+            title: place['title'],
+            image: File(place['image']),
+            location: LatLng(place['loc_lat'], place['loc_lng']),
+            address: place['address'] ?? "NOT FOUND",
+          ),
         )
         .toList();
+
     notifyListeners();
   }
 }
