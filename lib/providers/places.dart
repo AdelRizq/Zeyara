@@ -62,4 +62,10 @@ class Places with ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> deletePlace(String id) async {
+    _places.removeWhere((place) => place.id == id);
+    DBHelper.delete('user_places', id);
+    notifyListeners();
+  }
 }
