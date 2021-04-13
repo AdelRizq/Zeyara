@@ -52,8 +52,6 @@ class _LocationInputState extends State<LocationInput> {
       ),
     );
 
-    if (selectedLocation == null) return;
-
     setState(
       () {
         locationMap = LocationHelper.generateLocationPreviewImage(
