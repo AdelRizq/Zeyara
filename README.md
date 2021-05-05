@@ -1,4 +1,4 @@
-# great_places
+# Zeyara
 
 A new Flutter project.
 
